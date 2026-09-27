@@ -9,15 +9,16 @@ import { company, copy } from '../data/site';
     <p class="contact__lead">
       {copy.contactLead.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
     </p>
-    <a class="mail-box" href={`mailto:${company.email}`}>
+    <!-- Not a link as a whole, so the address can be selected and copied (e.g. into Gmail) -->
+    <div class="mail-box">
       <svg width="26" height="20" viewBox="0 0 26 20" aria-hidden="true" focusable="false">
         <rect x="1" y="1" width="24" height="18" fill="none" stroke="#1c1d1f" stroke-width="1.6"></rect>
         <path d="M1 1 L13 11 L25 1" fill="none" stroke="#1c1d1f" stroke-width="1.6"></path>
       </svg>
       <span class="mail-box__sep" aria-hidden="true"></span>
       <span class="mail-box__address">{company.email}</span>
-      <span class="mail-box__arrow" aria-hidden="true">⟶</span>
-    </a>
+      <a class="mail-box__arrow" href={`mailto:${company.email}`} aria-label="メールソフトで開く" title="メールソフトで開く">⟶</a>
+    </div>
     <p class="contact__note">{copy.contactNote}</p>
   </section>
 </BaseLayout>

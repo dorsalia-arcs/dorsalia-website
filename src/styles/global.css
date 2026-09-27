@@ -901,10 +901,6 @@ svg {
   max-width: 720px;
 }
 
-.mail-box:hover {
-  background: #f1f1ef;
-}
-
 .mail-box svg {
   flex: none;
 }
@@ -922,10 +918,18 @@ svg {
   font-size: 22px;
   letter-spacing: 0.03em;
   overflow-wrap: anywhere;
+  cursor: text;
+  user-select: all; /* one click selects the whole address */
 }
 
 .mail-box__arrow {
   font-size: 22px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+}
+
+.mail-box__arrow:hover {
+  background: #f1f1ef;
 }
 
 .contact__note {
