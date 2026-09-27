@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandHeading from '../components/BrandHeading.astro';
+import { visibleBrands, copy } from '../data/site';
+---
+<BaseLayout title="事業紹介">
+  <section class="page page--wide" aria-labelledby="page-title">
+    <div class="intro-grid">
+      <div>
+        <h1 class="page-title" id="page-title">BUSINESS</h1>
+        <p class="page-sub">事業紹介</p>
+      </div>
+      <p class="page-lead">{copy.lead}</p>
+    </div>
+    <div class="brand-cards">
+      {visibleBrands.map((brand) => {
+        const dark = brand.id === 'dorsalfin';
+        return (
+          <a class:list={['brand-card', dark && 'brand-card--dark']} href={brand.url} target="_blank" rel="noopener">
+            <div class:list={['brand-card__visual', `brand-card__visual--${brand.id}`]}>
+              {brand.visual && <img src={brand.visual} alt="" loading="lazy" decoding="async" />}
+            </div>
+            <div class="brand-card__body">
+              <BrandHeading brand={brand} as="h2" color={dark ? '#fff' : '#1c1d1f'} />
+              <p class="brand-desc">{brand.summary}</p>
+              <span class="visually-hidden">（{brand.name} のサイトを新しいタブで開く）</span>
+              <span class="arrow" aria-hidden="true">⟶</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

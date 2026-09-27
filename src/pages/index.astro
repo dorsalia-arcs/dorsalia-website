@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandHeading from '../components/BrandHeading.astro';
+import NewsList from '../components/NewsList.astro';
+import { visibleBrands, company, copy } from '../data/site';
+import { getPublishedNews } from '../lib/news';
+
+const latest = (await getPublishedNews()).slice(0, 3);
+const siteName = company.nameEn.replace(/\s*LLC$/, '');
+---
+<BaseLayout>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__body">
+      <h1 id="hero-title">{siteName}</h1>
+      <p class="hero__tagline">{copy.tagline}</p>
+      <div class="hero__rule" aria-hidden="true"></div>
+      <p class="hero__lead">
+        {copy.leadLines.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+      </p>
+    </div>
+    <div></div>
+  </section>
+
+  <section class="section top-business" aria-labelledby="top-business-title">
+    <div class="section-head">
+      <h2 id="top-business-title">OUR BUSINESS</h2>
+      <a class="more-link" href="/business/">事業紹介を見る <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="brand-panels">
+      {visibleBrands.map((brand) => {
+        const dark = brand.id === 'dorsalfin';
+        return (
+          <a href="/business/" class:list={['brand-panel', dark ? 'brand-panel--dark' : 'brand-panel--light']}>
+            {brand.visual && (
+              <div class="brand-panel__visual">
+                <img src={brand.visual} alt="" loading="lazy" decoding="async" />
+              </div>
+            )}
+            {brand.visual && <div class="brand-panel__fade"></div>}
+            <div class="brand-panel__body">
+              <BrandHeading brand={brand} as="h3" color={dark ? '#fff' : '#1c1d1f'} markWidth={52} markHeight={30} />
+              <p class="brand-desc">{brand.summary}</p>
+            </div>
+            <span class="arrow" aria-hidden="true">⟶</span>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="section top-news" aria-labelledby="top-news-title">
+    <div class="section-head">
+      <h2 id="top-news-title">NEWS</h2>
+      <a class="more-link" href="/news/">お知らせ一覧 <span aria-hidden="true">→</span></a>
+    </div>
+    <NewsList items={latest} />
+  </section>
+</BaseLayout>

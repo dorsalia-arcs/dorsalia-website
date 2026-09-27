@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsList from '../../components/NewsList.astro';
+import { copy } from '../../data/site';
+import { getPublishedNews } from '../../lib/news';
+
+const items = await getPublishedNews();
+---
+<BaseLayout title="お知らせ">
+  <section class="page page--narrow" aria-labelledby="page-title">
+    <div class="news-head">
+      <div>
+        <h1 class="page-title" id="page-title">NEWS</h1>
+        <p class="page-sub">お知らせ</p>
+      </div>
+      <p class="page-lead">
+        {copy.newsLead.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+      </p>
+    </div>
+    <div class="news-tabs"><span>お知らせ</span></div>
+    <NewsList items={items} variant="full" />
+  </section>
+</BaseLayout>

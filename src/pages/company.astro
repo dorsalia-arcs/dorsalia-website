@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { company } from '../data/site';
+
+// site.ts stores "代表社員　岩渕 貴洋"; the row label already says 代表社員.
+const representative = company.representative.replace(/^代表社員[\s　]*/, '');
+// "〒103-0022 東京都… 日本橋水野ビル7階" -> one line per part, as in the mockup
+const addressLines = company.address.split(' ');
+
+const rows: { k: string; v: string[] }[] = [
+  { k: '会社名', v: [company.nameJa] },
+  { k: '英文表記', v: [company.nameEn] },
+  { k: '設立', v: [company.established] },
+  { k: '資本金', v: [company.capital] },
+  { k: '代表社員', v: [representative] },
+  { k: '所在地', v: addressLines },
+];
+---
+<BaseLayout title="会社概要">
+  <section class="page page--narrow" aria-labelledby="page-title">
+    <h1 class="page-title" id="page-title">COMPANY</h1>
+    <p class="page-sub">会社概要</p>
+    <dl class="company-table">
+      {rows.map((row) => (
+        <div class="company-table__row">
+          <dt>{row.k}</dt>
+          <dd>{row.v.map((line, i) => (<>{i > 0 && <br />}{line}</>))}</dd>
+        </div>
+      ))}
+      <div class="company-table__row">
+        <dt>事業内容</dt>
+        <dd>
+          <ul>
+            {company.business.map((s) => <li>{s}</li>)}
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </section>
+</BaseLayout>

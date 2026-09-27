@@ -1,0 +1,59 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsTag from '../../components/NewsTag.astro';
+import { formatDate, getPublishedNews, isoDate } from '../../lib/news';
+
+export const getStaticPaths = (async () => {
+  const all = await getPublishedNews(); // newest first
+  return all.map((entry, i) => ({
+    params: { id: entry.id },
+    props: { entry, older: all[i + 1], newer: all[i - 1] },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry, older, newer } = Astro.props;
+const { Content } = await render(entry);
+---
+<BaseLayout title={entry.data.title}>
+  <article class="article">
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <ol>
+        <li><a href="/">TOP</a></li>
+        <li><a href="/news/">NEWS</a></li>
+        <li><span aria-current="page">{entry.data.title}</span></li>
+      </ol>
+    </nav>
+    <a class="back-link" href="/news/"><span aria-hidden="true">⟵</span>一覧に戻る</a>
+    <div class="article__meta">
+      <time datetime={isoDate(entry.data.date)}>{formatDate(entry.data.date)}</time>
+      <NewsTag brand={entry.data.brand} />
+    </div>
+    <h1>{entry.data.title}</h1>
+    <div class="article__rule" aria-hidden="true"><span></span><span></span></div>
+    <div class="article__body">
+      <Content />
+    </div>
+    {(older || newer) && (
+      <nav class="pager" aria-label="前後の記事">
+        <div class="pager__older">
+          {older && (
+            <a href={`/news/${older.id}/`} rel="prev">
+              <span class="pager__chev" aria-hidden="true">‹</span>
+              <span><span class="pager__label">前の記事</span><span class="pager__title">{older.data.title}</span></span>
+            </a>
+          )}
+        </div>
+        <div class="pager__newer">
+          {newer && (
+            <a href={`/news/${newer.id}/`} rel="next">
+              <span><span class="pager__label">次の記事</span><span class="pager__title">{newer.data.title}</span></span>
+              <span class="pager__chev" aria-hidden="true">›</span>
+            </a>
+          )}
+        </div>
+      </nav>
+    )}
+  </article>
+</BaseLayout>

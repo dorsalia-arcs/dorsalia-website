@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import NewsTag from './NewsTag.astro';
+import { formatDate, isoDate } from '../lib/news';
+
+interface Props {
+  items: CollectionEntry<'news'>[];
+  // "full" = /news list (narrower columns + trailing arrow), "compact" = TOP
+  variant?: 'compact' | 'full';
+}
+const { items, variant = 'compact' } = Astro.props;
+---
+{items.length === 0 ? (
+  <p class="news-empty">現在お知らせはありません。</p>
+) : (
+  <ul class:list={['news-list', { 'news-list--full': variant === 'full' }]}>
+    {items.map((item) => (
+      <li>
+        <a class="news-row" href={`/news/${item.id}/`}>
+          <time class="news-row__date" datetime={isoDate(item.data.date)}>{formatDate(item.data.date)}</time>
+          <NewsTag brand={item.data.brand} />
+          <span class="news-row__title">{item.data.title}</span>
+          {variant === 'full' && <span class="news-row__arrow" aria-hidden="true">⟶</span>}
+        </a>
+      </li>
+    ))}
+  </ul>
+)}

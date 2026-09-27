@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Content, frontmatter } from '../texts/privacy.md';
+import { formatDateJa, isoDate } from '../lib/news';
+
+const toDate = (v: unknown) => (v instanceof Date ? v : v ? new Date(String(v)) : undefined);
+const enacted = toDate(frontmatter.enacted);
+const updated = toDate(frontmatter.updated);
+const showUpdated = !!(enacted && updated && isoDate(updated) !== isoDate(enacted));
+---
+<BaseLayout title={frontmatter.title}>
+  <section class="page page--narrow privacy" aria-labelledby="page-title">
+    <div class="privacy-head">
+      <h1 class="page-title" id="page-title">PRIVACY POLICY</h1>
+      <div class="privacy-dates">
+        {enacted && <span>制定日 <time datetime={isoDate(enacted)}>{formatDateJa(enacted)}</time></span>}
+        {showUpdated && updated && <span>最終改定日 <time datetime={isoDate(updated)}>{formatDateJa(updated)}</time></span>}
+      </div>
+    </div>
+    <p class="page-sub">{frontmatter.title}</p>
+    <div class="prose">
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

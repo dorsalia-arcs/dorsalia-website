@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { copy } from '../data/site';
+---
+<BaseLayout title="ページが見つかりません">
+  <section class="page page--narrow" aria-labelledby="page-title">
+    <h1 class="page-title" id="page-title">404</h1>
+    <p class="page-sub">ページが見つかりません</p>
+    <p class="contact__lead">{copy.notFound}</p>
+    <a class="back-link" href="/"><span aria-hidden="true">⟵</span>TOPに戻る</a>
+  </section>
+</BaseLayout>

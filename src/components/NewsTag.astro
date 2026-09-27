@@ -1,0 +1,9 @@
+---
+import { newsBrandLabels } from '../data/site';
+
+interface Props {
+  brand: keyof typeof newsBrandLabels;
+}
+const { brand } = Astro.props;
+---
+<span class={`tag tag--${brand}`}>{newsBrandLabels[brand]}</span>

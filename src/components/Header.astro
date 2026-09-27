@@ -1,0 +1,19 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+
+const path = Astro.url.pathname;
+// As in the mockup, the privacy policy marks CONTACT.
+const activePath = path.startsWith('/privacy/') ? '/contact/' : path;
+const isCurrent = (href: string) => (href === '/' ? activePath === '/' : activePath.startsWith(href));
+---
+<header class="site-header">
+  <div class="site-header__inner">
+    <Logo />
+    <nav class="site-nav" aria-label="メイン">
+      {nav.map((n) => (
+        <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.en.toUpperCase()}</a>
+      ))}
+    </nav>
+  </div>
+</header>

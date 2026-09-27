@@ -1,0 +1,22 @@
+---
+import Logo from './Logo.astro';
+import { company, nav } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="site-footer__top">
+    <Logo />
+    <nav class="site-footer__nav" aria-label="フッター">
+      {nav.map((n) => <a href={n.href}>{n.en.toUpperCase()}</a>)}
+    </nav>
+  </div>
+  <div class="site-footer__bottom">
+    <small>&copy; {year} {company.nameEn}</small>
+    <div class="site-footer__links">
+      <a href="/privacy/">プライバシーポリシー</a>
+      <span class="sep" aria-hidden="true"></span>
+      <a href="/contact/">お問い合わせ</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,15 @@
+---
+// The Dorsalia Arcs arc mark from the mockup (also used for DorsalFin Studio).
+interface Props {
+  width?: number;
+  height?: number;
+  color?: string;
+  strokeWidth?: number;
+  dot?: number;
+}
+const { width = 30, height = 18, color = 'currentColor', strokeWidth = 5, dot = 2.6 } = Astro.props;
+---
+<svg class="logo__mark" width={width} height={height} viewBox="0 0 30 18" aria-hidden="true" focusable="false">
+  <path d="M3 18 A12 12 0 0 1 27 18" fill="none" stroke={color} stroke-width={strokeWidth}></path>
+  <circle cx="15" cy="15" r={dot} fill={color}></circle>
+</svg>

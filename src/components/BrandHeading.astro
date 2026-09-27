@@ -1,0 +1,38 @@
+---
+// Brand name block: DorsalFin Studio = logo mark (or arc mark) + name; iObY = wordmark with teal last letter.
+import ArcMark from './ArcMark.astro';
+import type { brands } from '../data/site';
+
+interface Props {
+  brand: (typeof brands)[number];
+  color?: string;
+  markWidth?: number;
+  markHeight?: number;
+  as?: 'h2' | 'h3';
+}
+const { brand, color = '#1c1d1f', markWidth = 48, markHeight = 28, as: Tag = 'h2' } = Astro.props;
+const head = brand.name.slice(0, -1);
+const last = brand.name.slice(-1);
+---
+{brand.id === 'ioby' ? (
+  <div>
+    <Tag class="brand-word" style="margin:0">{head}<span class="brand-word__accent">{last}</span></Tag>
+    <div class="brand-mark__tagline">{brand.tagline}</div>
+  </div>
+) : (
+  <div class="brand-mark">
+    {brand.logo ? (
+      <span
+        class="brand-mark__logo"
+        style={`--logo:url('${brand.logo}');background-color:${color}`}
+        aria-hidden="true"
+      ></span>
+    ) : (
+      <ArcMark width={markWidth} height={markHeight} color={color} strokeWidth={4.5} dot={2.4} />
+    )}
+    <div>
+      <Tag class="brand-mark__name" style="margin:0;font-weight:400">{brand.name}</Tag>
+      <div class="brand-mark__tagline">{brand.tagline}</div>
+    </div>
+  </div>
+)}
