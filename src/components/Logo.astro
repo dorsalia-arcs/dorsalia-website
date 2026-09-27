@@ -1,8 +1,7 @@
 ---
-import ArcMark from './ArcMark.astro';
 import { company } from '../data/site';
 ---
 <a href="/" class="logo">
-  <ArcMark color="#1c1d1f" />
+  <span class="logo__img" aria-hidden="true"></span>
   <span class="logo__text">{company.nameEn.replace(/\s*LLC$/, '')}</span>
 </a>

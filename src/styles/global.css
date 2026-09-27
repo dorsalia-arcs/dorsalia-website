@@ -114,6 +114,16 @@ svg {
   flex: none;
 }
 
+/* Company logo (single-color PNG, recolored via CSS mask) */
+.logo__img {
+  flex: none;
+  width: 48px;
+  height: 26px;
+  background-color: var(--ink);
+  -webkit-mask: url('/logo-mark.png') center / contain no-repeat;
+  mask: url('/logo-mark.png') center / contain no-repeat;
+}
+
 .logo__text {
   font-family: 'Jost', sans-serif;
   font-size: 19px;
